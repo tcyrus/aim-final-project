@@ -1,10 +1,10 @@
+import '../node_modules/voxel.css/dist/voxel.css';
+import './style.scss';
+
 import * as dat from 'dat.gui';
 
 import '../node_modules/voxel.css/dist/voxelcss.js';
 import CustomEditor from './CustomEditor.js';
-
-import '../node_modules/voxel.css/dist/voxel.css';
-import './style.scss';
 
 import colorPalleteHack from './colorPalleteHack.js';
 import buildCube from './buildCube.js';

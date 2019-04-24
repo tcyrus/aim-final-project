@@ -28,7 +28,7 @@ export default class CustomEditor {
 
     this.loadWorldVoxels();
   }
-  
+
   enable() {
     this.enabled = true;
   }
@@ -112,7 +112,7 @@ export default class CustomEditor {
     this.tool.mesh = new voxelcss.Mesh(new voxelcss.ColorFace(color));
   }
   getToolMeshColor() {
-    return '#'+editor.getToolMesh().getFront().getHex();
+    return '#'+this.tool.mesh.getFront().getHex();
   }
 
   _bindVoxel(voxel) {

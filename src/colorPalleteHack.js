@@ -7,7 +7,7 @@ export default function colorPalleteHack(controller) {
   t.parentNode.removeChild(t);
   t = wrapper2.querySelector('select');
   t.parentNode.removeChild(t);
-  
+
   controller.__radios = Array.prototype.map.call(select.children, (option, i) => {
     const tmp1 = wrapper2.cloneNode(true);
 
@@ -21,7 +21,7 @@ export default function colorPalleteHack(controller) {
       option.selected = true;
       controller.setValue(e.target.value);
     });
-    
+
     const label = document.createElement('label');
     label.appendChild(radio);
     label.appendChild(document.createTextNode(option.innerText));
