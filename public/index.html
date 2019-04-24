@@ -3,19 +3,20 @@
 <head lang='en'>
 	<meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width'>
-	<title>rollup-starter-app</title>
+	<link rel='stylesheet' href='./bundle.css'></link>
 
-	<style>
-		body {
-			font-family: 'Helvetica Neue', Arial, sans-serif;
-			color: #333;
-			font-weight: 300;
-		}
-	</style>
+	<title>Voxel Test</title>
 </head>
 <body>
-	<h1>rollup-starter-app</h1>
-	<p>The time is <span id='time-now'>...</span></p>
-	<script src='bundle.js'></script>
+	<div class='help'>
+		<h1>Help</h1>
+		<p>Drag to orbit</p>
+		<p>Shift-Drag to pan</p>
+		<p>Scroll to zoom</p>
+		<p>Click to add a voxel</p>
+		<p>Right click to remove a voxel</p>
+	</help>
+
+	<script src='./bundle.js'></script>
 </body>
 </html>
