@@ -51,7 +51,7 @@ window.addEventListener('load', () => {
 
   editor.load();
 
-  editor.setToolMesh(new voxelcss.Mesh(new voxelcss.ColorFace(colorPalete[15])));
+  editor.setToolMeshColor(colorPalete[15]);
 
   if (world.getVoxels().length === 0) {
     buildCube(editor);
@@ -123,7 +123,7 @@ function setupGUI() {
 
   const cube = gui.addFolder('Cube Options');
   colorPalleteHack(cube.add(data.cubeOptions, 'color', colorPalete)).onChange(meshColor => {
-    editor.setToolMesh(new voxelcss.Mesh(new voxelcss.ColorFace(meshColor)));
+    editor.setToolMeshColor(meshColor);
   });
 
 /*

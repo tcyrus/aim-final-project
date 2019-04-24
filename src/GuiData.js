@@ -50,7 +50,7 @@ export default class GuiData {
 
   setupCubeOptions(editor) {
     this.cubeOptions = {
-      color: '#'+editor.getToolMesh().getFront().getHex()
+      color: editor.setToolMeshColor()
     };
   }
 }

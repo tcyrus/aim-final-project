@@ -108,6 +108,13 @@ export default class CustomEditor {
     return old;
   }
 
+  setToolMeshColor(color) {
+    this.tool.mesh = new voxelcss.Mesh(new voxelcss.ColorFace(color));
+  }
+  getToolMeshColor() {
+    return '#'+editor.getToolMesh().getFront().getHex();
+  }
+
   _bindVoxel(voxel) {
     voxel.addEventListener('VoxelClick', this._onVoxelClick);
 
