@@ -19,4 +19,6 @@ const colorPalete = [
 
 const voxelDim = 50;
 
-export { colorPalete, voxelDim };
+const coolDownTime = 10000;
+
+export { colorPalete, voxelDim, coolDownTime };

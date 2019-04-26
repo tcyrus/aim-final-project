@@ -91,7 +91,7 @@ function writePixel(x, y, z, color) {
 		// To stop spamming the rules on the database 
 		// prevent creating a new timestamp within a 
 		// set period.
-		getTimestamp().then(timestamp => {	
+		getTimestamp().then(timestamp => {
 			// we've successfully set a new timestamp.
 			// This means the cooldown period is
 			// over and the user is free to save
@@ -156,7 +156,7 @@ function updateCoolCounter() {
 		  secs = String((coolCount / 1000) % 60);
 
 	// update the cooldown counter in the DOM
-	//coolDownText.innerHTML = `${mins}:${secs.length < 2 ? '0' : ''}${secs}`;
+	//coolDownText.innerHTML = `${mins}:${secs.toString().padStart(2, '0')}`;
 
 	// remove 1 secound (1000 milliseconds) 
 	// ready for the next update.

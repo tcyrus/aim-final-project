@@ -1,7 +1,9 @@
 import firebase from 'firebase/app';
 import deepEqual from 'deep-equal';
 
-import { voxelDim } from './constants.js'
+import { voxelDim } from './constants.js';
+
+import startCoolDown from './cooldown.js';
 
 export default class CustomEditor {
   constructor(_world, options) {
@@ -180,9 +182,11 @@ export default class CustomEditor {
   _doRemove(voxel) {
     const { x, y, z } = voxel.getPosition();
 
-    firebase.database().ref(`pixel/${x/voxelDim}x${y/voxelDim}x${z/voxelDim}`)
-            .remove()
-            .then(() => { this.remove(voxel); }).catch(console.error);
+    this._getTimestamp().then(timestamp => {
+      firebase.database().ref(`pixel/${x/voxelDim}x${y/voxelDim}x${z/voxelDim}`)
+              .remove()
+              .then(() => { this.remove(voxel); startCoolDown(); }).catch(console.error);
+    });
   }
 
   _doAddativeShift(voxel, dx, dy, dz) {
@@ -194,9 +198,11 @@ export default class CustomEditor {
 
     const { x, y, z } = newVoxel.getPosition();
 
-    firebase.database().ref(`pixel/${x/voxelDim}x${y/voxelDim}x${z/voxelDim}`)
-            .set({ uid: this.uid, color: this.toolMeshColor })
-            .then(() => { this.add(newVoxel); }).catch(console.error);
+    this._getTimestamp().then(timestamp => {
+      firebase.database().ref(`pixel/${x/voxelDim}x${y/voxelDim}x${z/voxelDim}`)
+              .set({ uid: this.uid, color: this.toolMeshColor, timestamp: timestamp })
+              .then(() => { this.add(newVoxel); startCoolDown(); }).catch(console.error);
+    }).catch(console.error);
   }
 
   loadWorldVoxels() {
@@ -214,13 +220,22 @@ export default class CustomEditor {
   }
 
   saveWorldToFirebase() {
-    this.world.getVoxels().forEach(voxel => {
-      const { x, y, z } = voxel.getPosition();
+    this._getTimestamp().then(timestamp => {
+      this.world.getVoxels().forEach(voxel => {
+        const { x, y, z } = voxel.getPosition();
 
-      firebase.database().ref(`pixel/${x/voxelDim}x${y/voxelDim}x${z/voxelDim}`)
-          .set({ uid: this.uid, color: `#${voxel.getMesh().getFront().getHex()}` })
-          .catch(console.error);
-    });
+        firebase.database().ref(`pixel/${x/voxelDim}x${y/voxelDim}x${z/voxelDim}`)
+            .set({ uid: this.uid, color: `#${voxel.getMesh().getFront().getHex()}`, timestamp: timestamp })
+            .catch(console.error);
+      });
+    }).catch(console.error);
+  }
+
+  _getTimestamp() {
+    const ref = firebase.database().ref(`last_write/${this.uid}`);
+    return ref.set(firebase.database.ServerValue.TIMESTAMP)
+      .then(() => ref.once('value'))
+      .then(timestamp => timestamp.val());
   }
 
   loadWorldFromFirebase() {
