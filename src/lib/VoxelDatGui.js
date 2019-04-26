@@ -103,6 +103,7 @@ export default class VoxelDatGui {
     });
   }
 
+/*
   initSavingData() {
     const editor = this.editor;
     this.savingData = {
@@ -127,6 +128,7 @@ export default class VoxelDatGui {
 
     this.saving = saving;
   }
+*/
 
   initCubeOptions() {
     const editor = this.editor;
