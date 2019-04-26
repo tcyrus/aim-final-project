@@ -1,5 +1,10 @@
 import firebaseConfig from './firebase-config.js'
 
+import * as firebase from 'firebase/app';
+ 
+import 'firebase/auth';
+import 'firebase/database';
+
 // TypeScript interfaces
 /*
 interface Pixel {
@@ -16,7 +21,6 @@ interface Position {
 
 // set loading state
 const coolDownTime = 500;
-const clearColorSelectionOnCoolDown = false;
 	  
 // Define variables
 let uid;
@@ -46,7 +50,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 		body.classList.replace('logged-out', 'logged-in');
   	} else {
 		// set login button
-		authButtonText.innerHTML = 'Login with Twitter';
+		authButtonText.innerHTML = 'Login';
 
 		body.classList.replace('logged-in', 'logged-out');
   	}
@@ -180,17 +184,16 @@ function startListeners() {
 
 	let placeRef = firebase.database().ref('pixel');
 
-	placeRef.once('value')
-		.then(snapshot => {
-			const grid = snapshot.val();
-			for (let i in grid) {
-				renderVoxel(i, grid[i]);
-			}
+	placeRef.once('value').then(snapshot => {
+		const grid = snapshot.val();
+		for (let i in grid) {
+			renderVoxel(i, grid[i]);
+		}
 
-			placeRef.on('child_changed', onChange);
-			placeRef.on('child_added', onChange);
-		})
-		.catch(console.error)
+		placeRef.on('child_changed', onChange);
+		placeRef.on('child_added', onChange);
+	})
+	.catch(console.error);
 }
 
 function onChange(change) {

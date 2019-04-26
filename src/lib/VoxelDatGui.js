@@ -1,6 +1,6 @@
 import * as dat from 'dat.gui';
 
-import { colorPalleteHack, buildCube } from './helpers.js';
+import { colorPalleteHack } from './helpers.js';
 import { colorPalete } from './constants.js';
 
 export default class VoxelDatGui {
@@ -104,22 +104,23 @@ export default class VoxelDatGui {
   }
 
   initSavingData() {
+    const editor = this.editor;
     this.savingData = {
-      autosave: this.editor.autosave,
-      saveWorld: this.editor.save,
-      loadWorld: this.editor.load,
+//      autosave: editor.autosave,
+      saveWorld() { editor.saveWorldToFirebase() },
+      loadWorld() { editor.loadWorldFromFirebase() },
       revertToDefault() {
-        this.editor.deleteSave();
-        this.editor.load();
-        buildCube(this.editor);
+        editor.deleteSave();
+        editor.loadWorldFromFirebase();
+        //buildCube(editor);
       }
     };
   }
 
   setupSavingData() {
-    const saving = this.gui.addFolder('Save World');
-    saving.add(this.savingData, 'autosave')
-      .onChange(autosave => { this.editor.autosave = autosave; });
+    const saving = this.gui.addFolder('Save World (Debug)');
+//    saving.add(this.savingData, 'autosave')
+//      .onChange(autosave => { this.editor.autosave = autosave; });
     saving.add(this.savingData, 'saveWorld');
     saving.add(this.savingData, 'loadWorld');
     saving.add(this.savingData, 'revertToDefault');
@@ -128,8 +129,9 @@ export default class VoxelDatGui {
   }
 
   initCubeOptions() {
+    const editor = this.editor;
     this.cubeOptions = {
-      color: this.editor.toolMeshColor
+      color: editor.toolMeshColor
     };
   }
 

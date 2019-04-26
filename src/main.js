@@ -3,12 +3,19 @@ import './styles/style.scss';
 import '../node_modules/voxel.css/dist/voxelcss.js';
 import CustomEditor from './lib/CustomEditor.js';
 
-import { buildCube } from './lib/helpers.js';
 import { colorPalete } from './lib/constants.js';
+//import { buildCube } from './lib/helpers.js';
 
 import VoxelDatGui from './lib/VoxelDatGui.js';
 
-if (!window.voxelcss) window.voxelcss = {};
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
+
+import firebaseConfig from './lib/firebase-config.js';
+
+firebase.initializeApp(firebaseConfig);
+
 voxelcss.Editor = CustomEditor;
 
 window.addEventListener('load', () => {
@@ -18,17 +25,17 @@ window.addEventListener('load', () => {
 
   const world = new voxelcss.World(scene, 'World');
   const editor = new voxelcss.Editor(world);
-  editor.autosave = true;
 
-  const lightSource = new voxelcss.LightSource(300, 300, 300, 750, 0.2, 1);
+  const lightSource = new voxelcss.LightSource(300, 300, 300, 750, 0.5, 1);
   scene.addLightSource(lightSource);
 
-  editor.load();
+  //editor.load();
 
-  editor.toolMeshColor = colorPalete[15];
+  editor.toolMeshColor = colorPalete[0];
 
   if (world.getVoxels().length === 0) {
-    buildCube(editor);
+    editor.loadWorldFromFirebase();
+    //buildCube(editor);
   }
 
   const voxelGui = new VoxelDatGui(lightSource, scene, editor);
