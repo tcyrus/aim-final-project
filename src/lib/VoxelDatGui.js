@@ -13,12 +13,12 @@ export default class VoxelDatGui {
 
     this.initLightData();
     this.initCameraData();
-    this.initSavingData();
+    //this.initSavingData();
     this.initCubeOptions();
 
     this.setupLightData();
     this.setupCameraData();
-    this.setupSavingData();
+    //this.setupSavingData();
     this.setupCubeOptions();
   }
 
