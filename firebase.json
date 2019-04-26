@@ -1,32 +1,13 @@
-// Firebase database rules are set to...
-
 {
-  "rules": {
-    "last_write": {
-      "$user": {
-        ".read": "auth.uid === $user",
-        ".write": "newData.exists() && (auth.uid === $user)",
-        ".validate": "newData.isNumber() && newData.val() === now && (!data.exists() || newData.val() > data.val() + 10000)"
-      }
-    },
-    "pixel": {
-      ".read": "true",
-      "$square": {
-        ".write": "auth !== null",
-        ".validate": "newData.hasChildren(['uid', 'color', 'timestamp']) && $square.matches(/^(-?\\d+)x(-?\\d+)x(-?\\d+)$/)",
-        "uid": {
-          ".validate": "newData.val() === auth.uid"
-        },
-        "timestamp": {
-          ".validate": "(newData.val() >= now - 500) && newData.val() === data.parent().parent().parent().child('last_write/'+auth.uid).val()"
-        },
-        "color": {
-          ".validate": "newData.isString() && newData.val().length === 7"
-        }
-      }
-    }
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
   }
 }
-
-// the rules to prevent adding pixels during cooldown
-// were written with help from http://stackoverflow.com/a/24841859
